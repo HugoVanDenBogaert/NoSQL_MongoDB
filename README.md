@@ -44,5 +44,5 @@ Construire une nouvelle collection stockant les JOUEUR ayant:
     - scripts mongodb avec commentaires de DEFINITION et de MANIPULATION des données
 
 Participants:
-    Clément VORMS
+    Clement VORMS
     Hugo VAN DEN BOGAERT
