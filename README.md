@@ -16,12 +16,12 @@ Modelisation à faire (dans mongdb):
 
     - match
         - équipe "domicile"
-        - équipe "exterieure"
+        - équipe "extérieure"
         - compétition
         - score domicile
-        - score éxterieure
+        - score extérieure
         - joueurs domiciles, avec chacun sa note
-        - joueurs éxterieure, avec chacun sa note
+        - joueurs extérieure, avec chacun sa note
 
 Mettre en place le nécessaire pour optimiser les requêtes:
 
