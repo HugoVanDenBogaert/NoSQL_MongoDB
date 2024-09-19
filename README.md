@@ -37,12 +37,15 @@ Exprimer les requêtes de:
     - d'insertion de matchs
 
 Construire une nouvelle collection stockant les JOUEUR ayant:
+
     - joué au moins X (par exemple 3) matchs
     - avec la moyenne de ses notes
 
 à livrer:
+
     - scripts mongodb avec commentaires de DEFINITION et de MANIPULATION des données
 
 Participants:
+
     Clément VORMS
     Hugo VAN DEN BOGAERT
