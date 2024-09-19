@@ -4,7 +4,7 @@ Modelisation à faire (dans mongdb):
         - nom
         - couleur
         - stade
-        - effctif (liste de joueurs)
+        - effectif (liste de joueurs)
 
     - Joueur
         - nom
@@ -44,5 +44,5 @@ Construire une nouvelle collection stockant les JOUEUR ayant:
     - scripts mongodb avec commentaires de DEFINITION et de MANIPULATION des données
 
 Participants:
-    Clement VORMS
+    Clément VORMS
     Hugo VAN DEN BOGAERT
