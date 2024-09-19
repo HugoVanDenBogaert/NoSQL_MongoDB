@@ -1,0 +1,1 @@
+# écrire ici les commandes pour respecter les consignes écrites dans le README ou la diapo
