@@ -165,7 +165,10 @@ db.match.aggregate([
             moyenneNotes: { $divide: ["$totalNotes", "$matchCount"] }, // Calculer la moyenne des notes
             matchCount: "$matchCount"
         }
-    }
+    },
+	{
+	$out: "joueursAvecMoyenne"
+	}
 ]);
 
 
