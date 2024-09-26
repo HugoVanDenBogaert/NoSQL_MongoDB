@@ -1,3 +1,4 @@
+# les requêtes ci-après sont pensé pour être éxecuté dans mongoshell
 
 # Insertion de joueurs
 db.joueur.insertMany([
@@ -117,58 +118,3 @@ db.match.insertMany([
         ]
     }
 ]);
-
-
-db.equipe.createIndex({ nom: 1 });
-# On crée un index simplement par nom parce que le nombre d'homonymes sera faible
-db.joueur.createIndex({ nom: 1 });
-
-maxDob = new Date();
-maxDob.setFullYear(TodayDate.getFullYear() - 35); 
-
-db.joueur.find({
-  	$or: [{poste: "arrière droit"}, {poste:"milieu"}],
-    dob: { $gte: maxDob } 
-});
-
-
-// Aggregation -> joueur + notes 
-db.match.aggregate([
-    {
-        $project: {
-            notes: {$concatArrays: ["$notesDomicile", "$notesExterieure"]}
-        }
-    },
-    {
-        $unwind : "$notes"
-    },
-    {
-        $group: {
-            _id: {
-                nom: "$notes.nom",
-                prenom: "$notes.prenom"
-            },
-            totalNotes: { $sum:"$notes.note"},
-            matchCount: { $sum: 1 },
-        }
-    },
-    {
-        $match: {
-            matchCount: { $gte: 1 } // Filtrer pour les joueurs ayant joué au moins 3 matchs
-        }
-    },
-    {
-        $project: {
-            _id: 0,
-            nom: "$_id.nom",
-            prenom: "$_id.prenom",
-            moyenneNotes: { $divide: ["$totalNotes", "$matchCount"] }, // Calculer la moyenne des notes
-            matchCount: "$matchCount"
-        }
-    },
-	{
-	$out: "joueursAvecMoyenne"
-	}
-]);
-
-

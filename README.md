@@ -1,4 +1,6 @@
-Modelisation à faire (dans mongdb):
+Dans les fichiers .sh se trouvent:
+
+La modelisation à faire dans mongdb (dans le fichier insertion.sh):
 
     - Equipe
         - nom
@@ -23,27 +25,24 @@ Modelisation à faire (dans mongdb):
         - joueurs domiciles, avec chacun sa note
         - joueurs extérieure, avec chacun sa note
 
-Mettre en place le nécessaire pour optimiser les requêtes:
+Le nécessaire pour optimiser les requêtes (dans le fichier index.sh):
 
     - d'équipe, par nom
     - de joueur, par nom
 
-Exprimer les requêtes de:
+Des requêtes de:
 
     - selection de JOUEUR pour un POSTE donné, et un AGE max
-    (exemple: arrière droit de moins de 25 ans)
+    (dans le fichier selection.sh)
     - d'insertion d'équipes
     - d'insertion de joueurs
     - d'insertion de matchs
+    (dans le fichier insertion.sh)
 
-Construire une nouvelle collection stockant les JOUEUR ayant:
+Une requête (dans le fichier aggregate.sh) pour construire une nouvelle collection stockant les JOUEUR ayant:
 
     - joué au moins X (par exemple 3) matchs
     - avec la moyenne de ses notes
-
-à livrer:
-
-    - scripts mongodb avec commentaires de DEFINITION et de MANIPULATION des données
 
 Participants:
 
