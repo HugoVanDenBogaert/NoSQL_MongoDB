@@ -1,5 +1,5 @@
 
-// Insertion de joueurs
+# Insertion de joueurs
 db.joueur.insertMany([
     {
         nom: "Michel",
@@ -84,7 +84,7 @@ db.equipe.insertMany([
     }
 ]);
 
-// Insertion de matchs
+# Insertion de matchs
 db.match.insertMany([
     {
         domicile: "Mont St-Michel",
@@ -102,7 +102,7 @@ db.match.insertMany([
         ]
     },
     {
-        domicile: "St-Malo Pirates", # match retour
+        domicile: "St-Malo Pirates",
         exterieure: "Mont St-Michel",
         competition: "Championnat Breizh vs Normandie",
         scoreDomicile: 1,
@@ -136,30 +136,25 @@ db.joueur.find({
 db.match.aggregate([
     {
         $project: {
-            notesDomicile: 1,
-            notesExterieure: 1
+            notes: {$concatArrays: ["$notesDomicile", "$notesExterieure"]}
         }
     },
     {
-        $unwind: "$notesDomicile",
+        $unwind : "$notes"
     },
-	{
-		$unwind: "$notesExterieure"
-	},
     {
         $group: {
             _id: {
-                nom: "$notesDomicile.nom",
-                prenom: "$notesDomicile.prenom"
+                nom: "$notes.nom",
+                prenom: "$notes.prenom"
             },
-            totalNotesDom: { $sum:"$notesDomicile.note"},
-						totalNotesExt: {$sum : "$notesExterieure.note"},
+            totalNotes: { $sum:"$notes.note"},
             matchCount: { $sum: 1 },
         }
     },
     {
         $match: {
-            matchCount: { $gte: 3 } // Filtrer pour les joueurs ayant joué au moins 3 matchs
+            matchCount: { $gte: 1 } // Filtrer pour les joueurs ayant joué au moins 3 matchs
         }
     },
     {
@@ -167,7 +162,8 @@ db.match.aggregate([
             _id: 0,
             nom: "$_id.nom",
             prenom: "$_id.prenom",
-            moyenneNotes: { $divide: [{$add:["$totalNotesDom", "$totalNotesExt"]}, "$matchCount"] } // Calculer la moyenne des notes
+            moyenneNotes: { $divide: ["$totalNotes", "$matchCount"] }, // Calculer la moyenne des notes
+            matchCount: "$matchCount"
         }
     }
 ]);
