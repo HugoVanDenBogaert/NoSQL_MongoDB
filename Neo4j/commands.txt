@@ -1,0 +1,23 @@
+CREATE (e1:entreprise {name:'TSE', activity:'teaching', desc:'une belle description', taille:50});
+
+CREATE (u1:user {first_name:'jonathan', last_name:'jostar', desc:'tâche de naissance en forme d'étoile', skills:['jaune','attend']});
+CREATE (u2:user {first_name:'joeseph', last_name:'jostar', desc:'tâche de naissance en forme d'étoile', skills:['onde','fuite']});
+
+CREATE (u1)-[:workfor {from:date('1970-1-22'), to:date('2003-5-17'), status:'salarié'}]->(e1);
+
+CREATE (u1)-[:knows]->(u2)-[:knows]->(u1);
+CREATE (u1)-[:worked_with]->(u2)-[:worked_with]->(u1);
+
+MATCH (e:entreprise {name:'TSE'});
+RETURN e
+
+MATCH (u:user {first_name:'joeseph'});
+RETURN u;
+
+MATCH (u1)-[w1:workfor]->(:entreprise)<-[w2:workfor]-(u2:user)
+WHERE w1.from < w2.to AND w2.from < w1.to
+RETURN u2;
+
+MATCH (u1)--(:user)--(u2:user)
+WHERE NOT u2 = u1
+RETURN u2;
