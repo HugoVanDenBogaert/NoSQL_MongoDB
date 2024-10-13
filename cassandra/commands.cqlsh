@@ -1,0 +1,55 @@
+// this is a comment
+-- this is also a comment
+/* this
+ * is
+ * a
+ * multi-line
+ * comment */
+
+CREATE KEYSPACE IF NOT EXISTS meteo
+    WITH replication = {'class' : 'SimpleStrategy', 'replication_factor' : 3};
+
+USE meteo;
+
+// the requests expected for the table will ask data using
+//  -ID
+//  -ID and timestamp
+// these column must therfore be part of the primary key
+
+// We assume that a meteo station can mesure multiple locations at the same time,
+// therefore, the longitude and latitude must be part of the primary key.
+
+// That being said, meteo station will probably have their mesurements in unchanging
+// locations, so longitude and latitude get the same value for many rows.
+// To save space and bandwidth, we chose to put them as partition key.
+
+// If the position is (mostly) different for each mesure of a meteo station
+// then the longitude and latitude should be a clustering key instead.
+
+// table for mostly constant positions per station
+CREATE TABLE mesurement (
+    ID uuid,
+    ts timestamp,
+    longitude float, latitude float,
+    temprature float,
+    humidity float,
+    PRIMARY KEY ((ID, longitude, latitude), ts)
+);
+
+// table for highly variable positions per station
+/*
+CREATE TABLE mesurement (
+    ID uuid,
+    ts timestamp,
+    longitude float, latitude float,
+    temprature float,
+    humidity float,
+    PRIMARY KEY (ID, ts, longitude, latitude)
+);*/
+
+SELECT * FROM mesurement WHERE ID = 42;
+
+SELECT * FROM mesurement
+    WHERE ID = 42
+        AND ts >= '2014-11-21 08:30:00+0000'
+        AND ts <= '2014-11-28 17:30:00+0000';
