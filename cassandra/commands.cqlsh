@@ -15,41 +15,38 @@ USE meteo;
 //  -ID
 //  -ID and timestamp
 // these column must therfore be part of the primary key
-
-// We assume that a meteo station can mesure multiple locations at the same time,
-// therefore, the longitude and latitude must be part of the primary key.
-
-// That being said, meteo station will probably have their mesurements in unchanging
-// locations, so longitude and latitude get the same value for many rows.
-// To save space and bandwidth, we chose to put them as partition key.
-
-// If the position is (mostly) different for each mesure of a meteo station
-// then the longitude and latitude should be a clustering key instead.
-
-// table for mostly constant positions per station
 CREATE TABLE mesurement (
-    ID uuid,
+    id uuid,
     ts timestamp,
-    longitude float, latitude float,
-    temprature float,
+    longitude text, latitude text,
+    temperature float,
     humidity float,
-    PRIMARY KEY ((ID, longitude, latitude), ts)
+    PRIMARY KEY ((id), ts)
 );
 
-// table for highly variable positions per station
-/*
-CREATE TABLE mesurement (
-    ID uuid,
-    ts timestamp,
-    longitude float, latitude float,
-    temprature float,
-    humidity float,
-    PRIMARY KEY (ID, ts, longitude, latitude)
-);*/
+// populate the table 
 
-SELECT * FROM mesurement WHERE ID = 42;
+INSERT INTO mesurement
+            (id, ts, longitude, latitude, temperature, humidity)
+     VALUES (8D8AC610-566D-4EF0-9C22-186B2A5ED793, '2014-11-21 08:00:00+0000', '45°26′05″N', '4°23′25″E', 23.6, 0.83);
 
+INSERT INTO mesurement
+            (id, ts, longitude, latitude, temperature, humidity)
+     VALUES (8D8AC610-566D-4EF0-9C22-186B2A5ED793, '2014-11-21 08:30:00+0000', '45°26′05″N', '4°23′25″E', 25.6, 0.80);
+
+INSERT INTO mesurement
+            (id, ts, longitude, latitude, temperature, humidity)
+     VALUES (8D8AC610-566D-4EF0-9C22-186B2A5ED793, '2014-11-21 09:00:00+0000', '45°26′05″N', '4°23′25″E', 25.8, 0.75);
+
+INSERT INTO mesurement
+            (id, ts, longitude, latitude, temperature, humidity)
+     VALUES (8D8AC610-566D-4EF0-9C22-186B2A5ED793, '2014-11-21 09:30:00+0000', '45°26′05″N', '4°23′25″E', 27.2, 0.60);
+
+// Get mesurements for a given station id.
+SELECT * FROM mesurement WHERE id = 8D8AC610-566D-4EF0-9C22-186B2A5ED793;
+
+// Get mesurement for a given station id and a time window.
 SELECT * FROM mesurement
-    WHERE ID = 42
+    WHERE id = 8D8AC610-566D-4EF0-9C22-186B2A5ED793
         AND ts >= '2014-11-21 08:30:00+0000'
         AND ts <= '2014-11-28 17:30:00+0000';
